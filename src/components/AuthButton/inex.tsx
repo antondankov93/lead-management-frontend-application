@@ -17,6 +17,10 @@ const LinkWrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: 0.2s;
+    &:hover {
+        scale: 1.05;
+    }
 `;
 
 const Text = styled.span`

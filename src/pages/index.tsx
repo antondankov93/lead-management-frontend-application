@@ -145,9 +145,6 @@ const AuthButtonWrapper = styled.div`
   top: 20px;
   right: 20px;
   transition: 0.2s;
-  &:hover {
-    scale: 1.05;
-  }
 `;
 
 export default function Home() {

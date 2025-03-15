@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { AuthButton } from "@/components/AuthButton/inex";
+import {ArrowDown} from "lucide-react";
 
 const Container = styled.div`
     display: flex;
@@ -33,26 +35,6 @@ const MenuItem = styled.li<{ active?: boolean }>`
     margin-bottom: 5px;
 `;
 
-const AdminSection = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const AdminIcon = styled.div`
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-`;
-
-const AdminText = styled.span`
-    font-weight: bold;
-`;
-
 const Content = styled.main`
     flex: 1;
     padding: 20px;
@@ -60,9 +42,7 @@ const Content = styled.main`
 
 const Header = styled.div`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
 `;
 
 const Title = styled.h2`
@@ -71,6 +51,8 @@ const Title = styled.h2`
 
 const SearchAndStatus = styled.div`
     display: flex;
+    margin-top: 20px;
+    margin-bottom: 5px;
 `;
 
 const SearchInput = styled.input`
@@ -86,29 +68,46 @@ const StatusSelect = styled.select`
     border-radius: 5px;
 `;
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  th,
-  td {
+const GridTable = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
     padding: 10px;
-    text-align: left;
+`;
+
+const GridHeader = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+`;
+
+const GridCell = styled.div`
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     border-bottom: 1px solid #ddd;
-  }
 `;
 
 const Pagination = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+    display: flex;
+    grid-column: 1 / span 4;
+    justify-content: flex-end;
+    margin-top: 20px;
 `;
 
 const PageButton = styled.button`
-  padding: 8px 12px;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
 `;
 
 const LeadsPage = () => {
@@ -131,10 +130,7 @@ const LeadsPage = () => {
                     <MenuItem active>Leads</MenuItem>
                     <MenuItem>Settings</MenuItem>
                 </Menu>
-                <AdminSection>
-                    <AdminIcon>A</AdminIcon>
-                    <AdminText>Admin</AdminText>
-                </AdminSection>
+                <AuthButton />
             </Sidebar>
             <Content>
                 <Header>
@@ -148,32 +144,27 @@ const LeadsPage = () => {
                         </StatusSelect>
                     </SearchAndStatus>
                 </Header>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>Name ↓</th>
-                        <th>Submitted ↓</th>
-                        <th>Status</th>
-                        <th>Country ↓</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <GridTable>
+                    <GridHeader>Name <ArrowDown size={20} /></GridHeader>
+                    <GridHeader>Submitted <ArrowDown size={20}  /></GridHeader>
+                    <GridHeader>Status <ArrowDown size={20}  /></GridHeader>
+                    <GridHeader>Country <ArrowDown size={20}  /></GridHeader>
                     {leads.map((lead, index) => (
-                        <tr key={index}>
-                            <td>{lead.name}</td>
-                            <td>{lead.submitted}</td>
-                            <td>{lead.status}</td>
-                            <td>{lead.country}</td>
-                        </tr>
+                        <>
+                            <GridCell key={`${index}-name`}>{lead.name}</GridCell>
+                            <GridCell key={`${index}-submitted`}>{lead.submitted}</GridCell>
+                            <GridCell key={`${index}-status`}>{lead.status}</GridCell>
+                            <GridCell key={`${index}-country`}>{lead.country}</GridCell>
+                        </>
                     ))}
-                    </tbody>
-                </Table>
-                <Pagination>
-                    <PageButton>1</PageButton>
-                    <PageButton>2</PageButton>
-                    <PageButton>3</PageButton>
-                    <PageButton>></PageButton>
-                </Pagination>
+                    <Pagination>
+                        <PageButton>1</PageButton>
+                        <PageButton>2</PageButton>
+                        <PageButton>3</PageButton>
+                        <PageButton>></PageButton>
+                    </Pagination>
+                </GridTable>
+
             </Content>
         </Container>
     );
