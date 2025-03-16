@@ -32,7 +32,7 @@ export const AuthButton = () => {
     return (
         <Link href="/auth">
             <LinkWrapper>
-            <Avatar><UserRound /></Avatar>
+            <Avatar><UserRound size={20} /></Avatar>
             <Text>Login</Text>
             </LinkWrapper>
         </Link>

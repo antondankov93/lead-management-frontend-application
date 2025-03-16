@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styled from 'styled-components';
 import { AuthButton } from "@/components/AuthButton/inex";
 import {ArrowDown} from "lucide-react";
+import Link from "next/link";
 
 const Container = styled.div`
     display: flex;
@@ -14,17 +15,17 @@ const Sidebar = styled.aside`
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 `;
 
 const Logo = styled.h1`
-    font-size: 24px;
+    font-size: 35px;
     margin-bottom: 30px;
 `;
 
 const Menu = styled.ul`
     list-style: none;
     padding: 0;
+    flex-grow: 1;
 `;
 
 const MenuItem = styled.li<{ active?: boolean }>`
@@ -60,12 +61,14 @@ const SearchInput = styled.input`
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
+    min-width: 300px;
 `;
 
 const StatusSelect = styled.select`
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    color: rgba(0, 0, 0, 0.35);
 `;
 
 const GridTable = styled.div`
@@ -84,7 +87,7 @@ const GridHeader = styled.div`
     font-weight: bold;
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
 `;
 
@@ -99,14 +102,15 @@ const Pagination = styled.div`
     display: flex;
     grid-column: 1 / span 4;
     justify-content: flex-end;
-    margin-top: 20px;
+    margin-top: 10px;
 `;
 
-const PageButton = styled.button`
+const PageButton: FC<{isActive?: boolean}> = styled.button`
     padding: 8px 12px;
     margin: 0 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: ${props => (props.isActive ? '1px solid #ccc' : 'none')};
+    border-radius: 2px;
+    background-color: transparent;
     cursor: pointer;
 `;
 
@@ -125,7 +129,9 @@ const LeadsPage = () => {
     return (
         <Container>
             <Sidebar>
-                <Logo>almă</Logo>
+                <Link href="/">
+                    <Logo>almă</Logo>
+                </Link>
                 <Menu>
                     <MenuItem active>Leads</MenuItem>
                     <MenuItem>Settings</MenuItem>
@@ -158,7 +164,7 @@ const LeadsPage = () => {
                         </>
                     ))}
                     <Pagination>
-                        <PageButton>1</PageButton>
+                        <PageButton isActive>1</PageButton>
                         <PageButton>2</PageButton>
                         <PageButton>3</PageButton>
                         <PageButton>></PageButton>

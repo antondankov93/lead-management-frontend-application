@@ -14,21 +14,28 @@ const MainWrapper = styled.div`
   background-color: white;
 `;
 const PreviewWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: start;
   align-items: center;
-  height: 30vh;
+  min-height: 30vh;
   width: 100%;
   background-color: rgba(217, 222, 165, 0.88);
   overflow: hidden;
+`;
 
+const PreviewTitlesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  div {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
   h1 {
     font-size: 2.5rem;
-  }
-
-  div {
-    font-size: 1.5rem;
-    font-weight: bold;
   }
 `;
 
@@ -147,6 +154,11 @@ const AuthButtonWrapper = styled.div`
   transition: 0.2s;
 `;
 
+const ImageWrapper = styled.div`
+  position: absolute;
+  left: 0;
+`;
+
 export default function Home() {
   const dispatch = useDispatch();
   const { formData, formErrors, handleSubmit, handleChange, handleVisaChange, handleResumeChange } = useLeadsForm();
@@ -160,11 +172,11 @@ export default function Home() {
           <AuthButtonWrapper>
             <AuthButton />
           </AuthButtonWrapper>
-          <Image src={CirclesImage} height={400} alt="logo" />
-          <div>
+          <ImageWrapper><Image src={CirclesImage} height={400} alt="logo" /></ImageWrapper>
+          <PreviewTitlesWrapper>
             <div>almă</div>
             <h1>Get An Assessment <br/> Of Your Immigration Case</h1>
-          </div>
+          </PreviewTitlesWrapper>
         </PreviewWrapper>
         <FormWrapper>
           <form onSubmit={handleSubmit}>
