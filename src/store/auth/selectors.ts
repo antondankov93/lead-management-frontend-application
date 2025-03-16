@@ -3,4 +3,4 @@ import { RootState } from '@/store'
 
 const selectAuth = (state: RootState) => state.auth
 
-export const selectUser = createSelector([selectAuth], (auth) => auth.token)
+export const selectUser = createSelector([selectAuth], (auth) => auth.user)

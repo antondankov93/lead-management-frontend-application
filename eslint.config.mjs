@@ -22,6 +22,7 @@ const eslintConfig = [
       "no-trailing-spaces": "error",
       "indent": ["error", 2],
       "semi": ["error", "never"],
+      "styled-components/css-prop": "error",
     },
   },
 ];

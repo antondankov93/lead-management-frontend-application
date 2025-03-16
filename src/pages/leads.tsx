@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AuthButton } from "@/components/AuthButton/inex";
 import {ArrowDown} from "lucide-react";
 import Link from "next/link";
+import {LightGray, White} from "@/styles/helpers/colors";
 
 const Container = styled.div`
     display: flex;
@@ -11,7 +12,7 @@ const Container = styled.div`
 
 const Sidebar = styled.aside`
     width: 200px;
-    background-color: #f0f0f0;
+    background-color: ${White};
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -95,7 +96,7 @@ const GridCell = styled.div`
     padding-left: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid ${LightGray};
 `;
 
 const Pagination = styled.div`
@@ -116,14 +117,14 @@ const PageButton: FC<{isActive?: boolean}> = styled.button`
 
 const LeadsPage = () => {
     const leads = [
-        { name: 'Jorge Ruiz', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
-        { name: 'Bahar Zamir', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
-        { name: 'Mary Lopez', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Brazil' },
-        { name: 'Li Zijin', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'South Korea' },
-        { name: 'Mark Antonov', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Russia' },
-        { name: 'Jane Ma', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
-        { name: 'Anand Jain', submitted: '02/02/2024, 2:45 PM', status: 'Reached Out', country: 'Mexico' },
-        { name: 'Anna Voronova', submitted: '02/02/2024, 2:45 PM', status: 'Pending', country: 'France' },
+        { name: 'Jorge Ruiz', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
+        { name: 'Bahar Zamir', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
+        { name: 'Mary Lopez', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Brazil' },
+        { name: 'Li Zijin', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'South Korea' },
+        { name: 'Mark Antonov', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Russia' },
+        { name: 'Jane Ma', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'Mexico' },
+        { name: 'Anand Jain', createdAt: '02/02/2024, 2:45 PM', status: 'Reached Out', country: 'Mexico' },
+        { name: 'Anna Voronova', createdAt: '02/02/2024, 2:45 PM', status: 'Pending', country: 'France' },
     ];
 
     return (
@@ -158,7 +159,7 @@ const LeadsPage = () => {
                     {leads.map((lead, index) => (
                         <>
                             <GridCell key={`${index}-name`}>{lead.name}</GridCell>
-                            <GridCell key={`${index}-submitted`}>{lead.submitted}</GridCell>
+                            <GridCell key={`${index}-submitted`}>{lead.createdAt}</GridCell>
                             <GridCell key={`${index}-status`}>{lead.status}</GridCell>
                             <GridCell key={`${index}-country`}>{lead.country}</GridCell>
                         </>
