@@ -1,46 +1,54 @@
 import { leadSchema } from '@/schemas/leadSchema'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setLeads } from '@/store/leads/slice'
+import { setLead } from '@/store/leads/slice'
+import { type } from 'arktype'
+import { useRouter } from 'next/navigation'
+import { Lead } from '@/types/common'
 
 const defaultFormData = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  countryOfCitizenship: '',
-  linkedIn: '',
-  visas: [] as string[],
-  resume: null as File | null,
-  additionalInfo: '',
+  id: crypto.randomUUID(),
+  firstName: undefined,
+  lastName: undefined,
+  email: undefined,
+  countryOfCitizenship: undefined,
+  linkedIn: undefined,
+  visas: [] as string[] | undefined,
+  resume: undefined,
+  additionalInfo: undefined,
   status: 'pending',
   createdAt: new Date().toISOString(),
 }
 const defaultFormErrors = {
-  firstName: null as string | null,
-  lastName: null as string | null,
-  email: null as string | null,
-  countryOfCitizenship: null as string | null,
-  linkedIn: null as string | null,
-  visas: null as string | null,
-  resume: null as string | null,
-  additionalInfo: null as string | null,
-  createdAt: null as string | null,
+  firstName: undefined as string | undefined,
+  lastName: undefined as string | undefined,
+  email: undefined as string | undefined,
+  countryOfCitizenship: undefined as string | undefined,
+  linkedIn: undefined as string | undefined,
+  visas: undefined as string[] | undefined,
+  resume: undefined as string | undefined,
+  additionalInfo: undefined as string | undefined,
+  status: undefined as string | undefined,
+  createdAt: undefined as string | undefined,
 }
-const getFormErrors = (errors: any) => ({
-  firstName: errors?.firstName?.[0]?.message || null,
-  lastName: errors?.lastName?.[0]?.message || null,
-  email: errors?.email?.[0]?.message || null,
-  countryOfCitizenship: errors?.countryOfCitizenship?.[0]?.message || null,
-  linkedIn: errors?.linkedIn?.[0]?.message || null,
-  additionalInfo: errors?.additionalInfo?.[0]?.message || null,
-  visas: errors?.visas?.[0]?.message || null,
-  resume: errors?.resume?.[0]?.message || null,
-  createdAt: errors?.createdAt?.[0]?.message || null,
+const getFormErrors = (errors: Record<string, any>) => ({
+  firstName: (errors?.firstName?.message && 'First name is required') || undefined,
+  lastName: (errors?.lastName?.message && 'Last name is required') || undefined,
+  email: (errors?.email?.message && 'Email is required') || undefined,
+  countryOfCitizenship: (errors?.countryOfCitizenship?.message && 'Country of citizenship is required') || undefined,
+  linkedIn: undefined,
+  additionalInfo: undefined,
+  visas: (errors?.visas?.message && 'Visas are required') || undefined,
+  resume: undefined,
+  status: undefined,
+  createdAt: errors?.createdAt?.message || undefined,
 })
 
 export const useLeadsForm = () => {
-  const [formData, setFormData] = useState(defaultFormData)
+  const [formData, setFormData] = useState<Lead>(defaultFormData)
   const [formErrors, setFormErrors] = useState(defaultFormErrors)
+
+  const router = useRouter()
   const dispatch = useDispatch()
 
   const handleSubmit = (e: FormEvent) => {
@@ -48,14 +56,13 @@ export const useLeadsForm = () => {
 
     const result = leadSchema(formData)
 
-    if (result.byPath === undefined) {
-      dispatch(setLeads(formData))
-      console.log('Submitted!', formData)
+    if (result instanceof type.errors) {
+      setFormErrors(getFormErrors(result.byPath))
+    } else {
+      dispatch(setLead(formData))
       setFormData(defaultFormData)
       setFormErrors(defaultFormErrors)
-    } else {
-      const errors = result.byPath
-      setFormErrors(getFormErrors(errors))
+      router.push('/success')
     }
   }
 
@@ -70,7 +77,8 @@ export const useLeadsForm = () => {
   }
 
   const handleResumeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
+    if (e.target.files) {
+      // @ts-ignore
       setFormData((prev) => ({ ...prev, resume: e.target.files[0] }))
     }
   }

@@ -1,18 +1,20 @@
-export type User = {
-  id: string
-  name: string
-} | undefined
+export type User =
+  | {
+      id: string
+      name: string
+    }
+  | undefined
 
 export type Lead = {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  countryOfCitizenship: string
-  linkedIn: string
-  visas: string[]
-  resume: File | null
-  additionalInfo: string
-  status: string
-  createdAt: string
+  id: string | undefined
+  firstName: string | undefined
+  lastName: string | undefined
+  email: string | undefined
+  countryOfCitizenship: string | undefined
+  linkedIn?: string | undefined
+  visas: string[] | undefined
+  resume?: File | undefined
+  additionalInfo?: string | undefined
+  status: string | undefined
+  createdAt: string | undefined
 }

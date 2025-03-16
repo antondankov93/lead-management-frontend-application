@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Image from 'next/image'
-import { useDispatch } from 'react-redux'
 import { useLeadsForm } from '@/hooks/useLeadsForm'
 import CirclesImage from '@/assets/images/Circles.png'
 import { Briefcase, Dices, FileCheck2, Heart } from 'lucide-react'
@@ -44,7 +43,7 @@ const PreviewTitlesWrapper = styled.div`
   }
 `
 
-const FormTitles = styled.div`
+export const FormTitles = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,17 +73,10 @@ const FormWrapper = styled.div`
   padding: 2rem;
 `
 
-const FileInputContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
 const StyledCheckboxWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1rem;
   font-weight: bolder;
 `
 
@@ -105,11 +97,17 @@ const ImageWrapper = styled.div`
   position: absolute;
   left: 0;
 `
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`
 
 const countries = ['USA', 'Canada', 'UK', 'Australia', 'Germany', 'France', 'India']
 const visaCategories = ['O-1', 'EB-1A', 'EB-2 NIW', "I don't know"]
 
 export default function Home() {
+  // In real case I would use more versatile and less verbose tools such as TanStack-Form or React-Hook-Form
   const { formData, formErrors, handleSubmit, handleChange, handleVisaChange, handleResumeChange } =
     useLeadsForm()
 
@@ -140,7 +138,7 @@ export default function Home() {
               circumstances.
             </p>
           </FormTitles>
-          <div>
+          <InputWrapper>
             <Input
               type="text"
               name="firstName"
@@ -149,8 +147,8 @@ export default function Home() {
               placeholder="First Name"
             />
             {formErrors.firstName && <ErrorMessage>{formErrors.firstName}</ErrorMessage>}
-          </div>
-          <div>
+          </InputWrapper>
+          <InputWrapper>
             <Input
               type="text"
               name="lastName"
@@ -159,8 +157,8 @@ export default function Home() {
               placeholder="Last Name"
             />
             {formErrors.lastName && <ErrorMessage>{formErrors.lastName}</ErrorMessage>}
-          </div>
-          <div>
+          </InputWrapper>
+          <InputWrapper>
             <Input
               name="email"
               value={formData.email}
@@ -169,13 +167,9 @@ export default function Home() {
               type="email"
             />
             {formErrors.email && <ErrorMessage>{formErrors.email}</ErrorMessage>}
-          </div>
-          <div>
-            <Select
-              name="country"
-              value={formData.countryOfCitizenship}
-              onChange={handleChange}
-            >
+          </InputWrapper>
+          <InputWrapper>
+            <Select name="countryOfCitizenship" value={formData.countryOfCitizenship} onChange={handleChange}>
               <option value="">Select Your Country</option>
               {countries.map((country) => (
                 <option key={country} value={country}>
@@ -186,8 +180,8 @@ export default function Home() {
             {formErrors.countryOfCitizenship && (
               <ErrorMessage>{formErrors.countryOfCitizenship}</ErrorMessage>
             )}
-          </div>
-          <div>
+          </InputWrapper>
+          <InputWrapper>
             <Input
               name="linkedIn"
               value={formData.linkedIn}
@@ -196,7 +190,7 @@ export default function Home() {
               type="text"
             />
             {formErrors.linkedIn && <ErrorMessage>{formErrors.linkedIn}</ErrorMessage>}
-          </div>
+          </InputWrapper>
 
           <FormTitles>
             <Dices color="#8D8CFF" size={40} />
@@ -220,16 +214,16 @@ export default function Home() {
             <Briefcase color="#8D8CFF" size={40} />
             <h2>Your resume</h2>
           </FormTitles>
-          <FileInputContainer>
+          <InputWrapper>
             <input type="file" name="resume" onChange={handleResumeChange} />
             {formErrors.resume && <ErrorMessage>{formErrors.resume}</ErrorMessage>}
-          </FileInputContainer>
+          </InputWrapper>
 
           <FormTitles>
             <Heart color="#8D8CFF" size={40} />
             <h2>How can we help you?</h2>
           </FormTitles>
-          <div>
+          <InputWrapper>
             <TextArea
               name="additionalInfo"
               value={formData.additionalInfo}
@@ -237,7 +231,7 @@ export default function Home() {
               placeholder="Additional Information"
             />
             {formErrors.additionalInfo && <ErrorMessage>{formErrors.additionalInfo}</ErrorMessage>}
-          </div>
+          </InputWrapper>
           <Button type="submit">Submit</Button>
         </form>
       </FormWrapper>

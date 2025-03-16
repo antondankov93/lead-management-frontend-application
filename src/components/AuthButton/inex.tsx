@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { UserRound } from 'lucide-react'
 import { White } from '@/styles/helpers/colors'
+import { selectUser } from '@/store/auth/selectors'
+import { useSelector } from 'react-redux'
 
 const Avatar = styled.div`
   width: 30px;
@@ -30,13 +32,15 @@ const Text = styled.span`
 `
 
 export const AuthButton = () => {
+  const user = useSelector(selectUser)
+
   return (
     <Link href="/auth">
       <LinkWrapper>
         <Avatar>
           <UserRound size={20} />
         </Avatar>
-        <Text>Login</Text>
+        <Text>{user ? user.name : 'Login'}</Text>
       </LinkWrapper>
     </Link>
   )

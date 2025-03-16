@@ -3,7 +3,7 @@ import { Lead } from '@/types/common'
 import storage from 'redux-persist/lib/storage/session'
 import { persistReducer } from 'redux-persist'
 
-const initialState: {leads: Lead[]} = {
+const initialState: { leads: Lead[] } = {
   leads: [],
 }
 
@@ -11,13 +11,13 @@ const leadSlice = createSlice({
   name: 'leads',
   initialState,
   reducers: {
-    setLeads: (state, action: PayloadAction<Lead[]>) => {
-      state.leads = action.payload
+    setLead: (state, action: PayloadAction<Lead>) => {
+      state.leads = [...state.leads, action.payload]
     },
   },
 })
 
-export const { setLeads } = leadSlice.actions
+export const { setLead } = leadSlice.actions
 
 const persistLeadsConfig = {
   key: 'leads',
