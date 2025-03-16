@@ -1,23 +1,27 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { leadSchema } from "@/schemas/leadSchema";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Lead } from '@/types/common'
+import storage from 'redux-persist/lib/storage/session'
+import { persistReducer } from 'redux-persist'
 
-type Lead = typeof leadSchema.infer;
-const initialState: Lead[] = [];
+const initialState: {leads: Lead[]} = {
+  leads: [],
+}
 
 const leadSlice = createSlice({
-    name: "leads",
-    initialState,
-    reducers: {
-        addLead: (state, action: PayloadAction<Lead>) => {
-            state.push(action.payload);
-        },
-        updateLeadStatus: (state, action: PayloadAction<{ email: string; status: "REACHED_OUT" }>) => {
-            const lead = state.find((l) => l.email === action.payload.email);
-            if (lead) lead.status = action.payload.status;
-        },
+  name: 'leads',
+  initialState,
+  reducers: {
+    setLeads: (state, action: PayloadAction<Lead[]>) => {
+      state.leads = action.payload
     },
-});
+  },
+})
 
-export const { addLead, updateLeadStatus } = leadSlice.actions;
+export const { setLeads } = leadSlice.actions
 
-export default leadSlice.reducer;
+const persistLeadsConfig = {
+  key: 'leads',
+  storage,
+  whitelist: ['leads'],
+}
+export default persistReducer(persistLeadsConfig, leadSlice.reducer)
